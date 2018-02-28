@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 public class Program
 {
@@ -12,12 +12,12 @@ public class Program
 
     public static void Main()
     {
-        do 
+        do
         {
             DrawBoard();
             GetInput();
 
-        } while (!CheckForWin() && !CheckForTie())
+        } while (!CheckForWin() && !CheckForTie());
 
         // leave this command at the end so your program does not close automatically
         Console.ReadLine();
@@ -30,18 +30,52 @@ public class Program
         int row = int.Parse(Console.ReadLine());
         Console.WriteLine("Enter Column:");
         int column = int.Parse(Console.ReadLine());
+        PlaceMark(row, column);
+
+        if (CheckForWin())
+        {
+            DrawBoard();
+            Console.WriteLine("Player " + playerTurn + "Won!");
+            return;
+        }
+        else if (CheckForTie())
+        {
+            DrawBoard();
+            Console.WriteLine("It's a tie!");
+            return;
+        }
+
+        playerTurn = (playerTurn == "X") ? "O" : "X";
+
     }
 
     public static void PlaceMark(int row, int column)
     {
-       // your code goes here
+        board[row][column] = playerTurn;
     }
 
     public static bool CheckForWin()
     {
-        // your code goes here
+        return (HorizontalWin() || VerticalWin() || DiagonalWin());
+    }
 
-        return false;
+    public static int SlotsAvailable()
+    {
+        int openSlots = 0;
+
+        foreach (var row in board)
+        {
+            foreach (var column in row)
+            {
+                if (column != "X" && column != "O")
+                {
+                    openSlots++;
+                }
+            }
+        }
+
+        return openSlots;
+
     }
 
     public static bool CheckForTie()
@@ -50,12 +84,12 @@ public class Program
 
         return false;
     }
-    
+
     public static bool HorizontalWin()
     {
-       // your code goes here
+        // your code goes here
 
-       return false;
+        return false;
     }
 
     public static bool VerticalWin()
